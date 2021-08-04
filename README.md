@@ -40,7 +40,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 ## Features
 
 1. 不影响手机端的使用
-2. 全平台试用（MacOS、Windows、Linux）
+2. 全平台运行（MacOS、Windows、Linux）
 3. Python功能模块化，方便二次开发
 4. 开箱即用，使用者不需要涉及代码编写，仅需要编辑想要的问答形式即可
 
