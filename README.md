@@ -7,7 +7,7 @@
 bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使用Python编写
 
 - [ ] PaimonBot
-  - [ ] 同时监控个人和群聊
+  - [x] 同时监控个人和群聊
   - [ ] 多线程
   - [x] 针对特定语句的回复功能
     - [x] 图片
@@ -37,7 +37,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 
 
-## Features
+## FEATURES
 
 1. 不影响手机端的使用
 2. 全平台运行（MacOS、Windows、Linux）
@@ -48,7 +48,131 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 ## GETTING STARTED
 
+> ### Linux 环境
 
+1.安装`Node.js v14`
+
+​		1）以 sudo 用户身份运行下面的命令，下载并执行 NodeSource 安装脚本：
+
+```bash
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+```
+
+​		2）NodeSource 源启用成功后，安装 Node.js 和 npm:
+
+```bash
+sudo apt install nodejs
+```
+
+​		3）验证 Node.js 和 npm 是否正确安装。打印它们的版本号：
+
+```bash
+node -v
+```
+
+
+
+2.初始化root目录环境
+
+```bash
+npm init
+```
+
+
+
+3.从npm包管理库拉取必要依赖
+
+```bash
+npm i qrcode-terminal --save
+npm i wechaty 
+npm i wechaty-puppet-wechat --save
+```
+
+
+
+4.安装`wechaty-PaimonBot`
+
+```bash
+npm i wechaty-paimonbot
+```
+
+
+
+5.前往`root/node_module`中的`wechaty-paimonbot`包内安装运行环境所必要的依赖
+
+```
+cd node_modules/wechaty-paimonbot/
+npm install
+```
+
+
+
+6.安装`Typescript`和`ts-node`
+
+```bash
+npm install -g typescript
+npm install -g ts-node
+```
+
+
+
+7.前往`/root/node_module`中对部分依赖包中存在的错误进行修正
+
+程序使用了大量的外部依赖，因此我们需要前往依赖包中对起代码进行部分修订
+
+> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第19行中的 `import QuickLru from 'quick-lru';`修订为 `import * as QuickLru from 'quick-lru';`
+
+
+
+8.前往`root/node_module/wechaty-paimonbot/node_module`中对部分依赖包中存在的错误进行修正
+
+> 在`wechaty-paimonbot/node_module`使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`wechaty-paimonbot/node_module`使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+
+
+9.安装剩余的依赖包
+
+```bash
+sudo apt-get install gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+--------以上内容一次性复制，下面的命令单独执行--------
+sudo apt-get install -y libgbm1
+```
+
+
+
+10.前往`root/node_module`中的`wechaty-paimonbot`包内的`src`目录中执行：
+
+```bash
+tsc PaimonBot.ts
+```
+
+如果**仅**出现这一项报错请忽略：![errorImage01](./Image/errorImage01.png)
+
+
+
+11.执行完第十步后，执行以下命令，启动bot：
+
+```bash
+ts-node PaimonBot.js
+```
+
+当屏幕中出现二维码需要扫描，通过后则bot完全启动
 
 ## Q&A
 
@@ -56,7 +180,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 ## VERSION
 
-v1.0（2021.8.） 初次提交
+v1.0（2021.8.4） 初次提交
 
 
 
