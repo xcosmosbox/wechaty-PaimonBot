@@ -1,6 +1,6 @@
 # WECHATY-PAIMONBOT
 
-[![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-blue.svg)](https://github.com/wechaty/wechaty) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/) [![node](https://img.shields.io/node/v/wechaty.svg?maxAge=604800)]() 
+[![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-blue.svg)](https://github.com/wechaty/wechaty) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/) [![node](https://img.shields.io/badge/node-%3E%3D%2014.0.0-brightgreen)]() 
 
 针对[wechaty-puppet-wechat](https://github.com/wechaty/wechaty-puppet-wechat)的功能实现，使用微信web协议的[UOS请求头](https://wechaty.js.org/2021/04/13/wechaty-uos-web/)，添加了额外的Python功能模块。
 
@@ -48,7 +48,9 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 ## GETTING STARTED
 
-> ### Linux 环境
+> ### Linux 和 macOS 环境
+
+***NOTE：Linux配置应不低于1核1GB内存，推荐2核2GB内存***
 
 1.安装`Node.js v14`
 
@@ -179,6 +181,9 @@ ts-node PaimonBot.js
 
 
 ## VERSION
+v1.0.2（2021.8.5）增加了一些必要的更新
+
+v1.0.1 （2021.8.4）更新了getting started
 
 v1.0（2021.8.4） 初次提交
 
