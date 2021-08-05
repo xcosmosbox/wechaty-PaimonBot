@@ -130,7 +130,7 @@ npm install -g ts-node
 
 将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
 
-> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+> 在`node_module`中使用命令：`vim wechaty-puppet/dist/src/puppet.d.ts`
 
 将第19行中的 `import QuickLru from 'quick-lru';`修订为 `import * as QuickLru from 'quick-lru';`
 
