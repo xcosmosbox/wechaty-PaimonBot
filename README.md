@@ -32,6 +32,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
     - [x] 爬取一周的天气
     - [x] 以文字的形式回答提问者指定地区的天气
     - [x] 以图片的形式回答提问者指定地区的天气
+      - [ ] 多线程的爬取图片
     - [ ] 多线程天气爬虫
   - [ ] 其它爬虫
 
@@ -48,7 +49,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 ## GETTING STARTED
 
-> ### Linux 和 macOS 环境
+> ### Linux 环境
 
 ***NOTE：Linux配置应不低于1核1GB内存，推荐2核2GB内存***
 
@@ -100,7 +101,7 @@ npm i wechaty-paimonbot
 
 
 
-5.前往`root/node_module`中的`wechaty-paimonbot`包内安装运行环境所必要的依赖
+5.前往`root/node_modules`中的`wechaty-paimonbot`包内安装运行环境所必要的依赖
 
 ```
 cd node_modules/wechaty-paimonbot/
@@ -118,31 +119,31 @@ npm install -g ts-node
 
 
 
-7.前往`/root/node_module`中对部分依赖包中存在的错误进行修正
+7.前往`/root/node_modules`中对部分依赖包中存在的错误进行修正
 
 程序使用了大量的外部依赖，因此我们需要前往依赖包中对起代码进行部分修订
 
-> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.d.ts`
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.d.ts`
 
 将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
 
-> 在`node_module`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
 
 将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
 
-> 在`node_module`中使用命令：`vim wechaty-puppet/dist/src/puppet.d.ts`
+> 在`node_modules`中使用命令：`vim wechaty-puppet/dist/src/puppet.d.ts`
 
 将第19行中的 `import QuickLru from 'quick-lru';`修订为 `import * as QuickLru from 'quick-lru';`
 
 
 
-8.前往`root/node_module/wechaty-paimonbot/node_module`中对部分依赖包中存在的错误进行修正
+8.前往`root/node_modules/wechaty-paimonbot/node_modules`中对部分依赖包中存在的错误进行修正
 
-> 在`wechaty-paimonbot/node_module`使用命令：`vim file-box/dist/src/file-box.d.ts`
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.d.ts`
 
 将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
 
-> 在`wechaty-paimonbot/node_module`使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.type.d.ts`
 
 将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
 
@@ -160,7 +161,7 @@ sudo apt-get install -y libgbm1
 
 
 
-10.前往`root/node_module`中的`wechaty-paimonbot`包内的`src`目录中执行：
+10.前往`root/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
 
 ```bash
 tsc PaimonBot.ts
@@ -177,6 +178,213 @@ ts-node PaimonBot.js
 ```
 
 当屏幕中出现二维码需要扫描，通过后则bot完全启动
+
+
+
+> ### Windows 环境
+
+1.安装`Node.js v14`
+
+​		前往[Node.js](https://nodejs.org/en/download/)官网下载Windows Installer并安装。安装完成后在`CMD`中使用`node -v`检查版本号，验证安装成功与否。
+
+
+
+2.前往`C://User/「自己电脑的用户名下」`，在地址栏中删去的路径，输入`CMD`并回车在新的命令行窗口中，输入以下命令：	
+
+```
+npm init
+```
+
+
+
+3.从npm包管理库拉取必要依赖（依旧在刚刚打开的命令行窗口中）
+
+```bash
+npm i qrcode-terminal --save
+npm i wechaty 
+npm i wechaty-puppet-wechat --save
+```
+
+
+
+4.安装`wechaty-PaimonBot`（依旧在刚刚打开的命令行窗口中）
+
+```bash
+npm i wechaty-paimonbot
+```
+
+
+
+5.前往`C://User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内安装运行环境所必要的依赖
+
+```
+cd node_modules/wechaty-paimonbot/
+npm install
+```
+
+
+
+6.安装`Typescript`和`ts-node`
+
+```bash
+npm install -g typescript
+npm install -g ts-node
+```
+
+
+
+7.前往`wechaty-paimonbot/node_modules`中对部分依赖包中存在的错误进行修正
+
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+
+
+8.前往`C://User/「自己电脑的用户名下」/node_modules`中对部分依赖包中存在的错误进行修正
+
+程序使用了大量的外部依赖，因此我们需要前往依赖包中对起代码进行部分修订
+
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_modules`中使用命令：`vim wechaty-puppet/dist/src/puppet.d.ts`
+
+将第19行中的 `import QuickLru from 'quick-lru';`修订为 `import * as QuickLru from 'quick-lru';`
+
+
+
+9.前往`C://User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
+
+```bash
+tsc PaimonBot.ts
+```
+
+如果**仅**出现这一项报错请忽略：![errorImage01](./Image/errorImage01.png)
+
+
+
+10.执行完第九步后，执行以下命令，启动bot：
+
+```bash
+ts-node PaimonBot.js
+```
+
+当屏幕中出现二维码需要扫描，通过后则bot完全启动
+
+
+
+
+> ### macOS 环境
+
+1.安装`Node.js v14`
+
+​		前往[Node.js](https://nodejs.org/en/download/)官网下载macOS Installer并安装。安装完成后在`terminal`中使用`node -v`检查版本号，验证安装成功与否。
+
+
+
+2.在`	terminal`输入以下命令并回车，会初始化配置文件，只需要一路的回车确认就行	
+
+```
+npm init
+```
+
+
+
+3.从npm包管理库拉取必要依赖（依旧在刚刚打开的`terminal`窗口中）
+
+```bash
+npm i qrcode-terminal --save
+npm i wechaty 
+npm i wechaty-puppet-wechat --save
+```
+
+
+
+4.安装`wechaty-PaimonBot`（依旧在刚刚打开的`terminal`窗口中）
+
+```bash
+npm i wechaty-paimonbot
+```
+
+
+
+5.前往`/User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内安装运行环境所必要的依赖
+
+```
+cd node_modules/wechaty-paimonbot/
+npm install
+```
+
+
+
+6.安装`Typescript`和`ts-node`
+
+```bash
+npm install -g typescript
+npm install -g ts-node
+```
+
+
+
+7.前往`wechaty-paimonbot/node_modules`中对部分依赖包中存在的错误进行修正
+
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`wechaty-paimonbot/node_modules`使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+
+
+8.前往`/User/「自己电脑的用户名下」/node_modules`中对部分依赖包中存在的错误进行修正
+
+程序使用了大量的外部依赖，因此我们需要前往依赖包中对起代码进行部分修订
+
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_modules`中使用命令：`vim file-box/dist/src/file-box.type.d.ts`
+
+将第2行中 `import http from 'http';` 修订为`import * as http from 'http';` 
+
+> 在`node_modules`中使用命令：`vim wechaty-puppet/dist/src/puppet.d.ts`
+
+将第19行中的 `import QuickLru from 'quick-lru';`修订为 `import * as QuickLru from 'quick-lru';`
+
+
+
+9.前往`/User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
+
+```bash
+tsc PaimonBot.ts
+```
+
+如果**仅**出现这一项报错请忽略：![errorImage01](./Image/errorImage01.png)
+
+
+
+10.执行完第九步后，执行以下命令，启动bot：
+
+```bash
+ts-node PaimonBot.js
+```
+
+当屏幕中出现二维码需要扫描，通过后则bot完全启动
+
+
 
 ## Q&A
 
