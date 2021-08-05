@@ -390,6 +390,16 @@ ts-node PaimonBot.js
 
 
 
+## 启用Python功能模块
+
+进入`wechaty-PaimonBot/PyMode/WeatherCrawlMode`中，运行一下命令：
+
+```python
+pip install -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+
+
 ## Q&A
 
 
