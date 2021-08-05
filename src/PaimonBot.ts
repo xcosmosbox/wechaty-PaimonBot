@@ -1,5 +1,5 @@
 
-import { config } from "wechaty-puppet-wechat/node_modules/rxjs/internal/config";
+// import { config } from "wechaty-puppet-wechat/node_modules/rxjs/internal/config";
 //import { Message } from "wechaty";
 import { Wechaty, Message, Room, Contact } from 'wechaty';
 import { MessageType } from "wechaty-puppet";
@@ -25,17 +25,7 @@ function onScan(qrcode: string | number | boolean, status: any) {
   console.log(qrcodeImageUrl);
 
   
-//    if (status === ScanStatus.Waiting && qrcode) {
-//         require('qrcode-terminal').generate(qrcode); // 在console端显示二维码
-//         const qrcodeImageUrl = [
-//             'https://wechaty.js.org/qrcode/',
-//             encodeURIComponent(qrcode),
-//           ].join('');
-//         console.log(`onScan: ${ScanStatus[status]}(${status}) - ${qrcodeImageUrl}`);
-//    } else {
-//         console.log(`onScan: ${ScanStatus[status]}(${status})`);
-//    }
-}
+
 
 // 登录
 async function onLogin(user: any) {
