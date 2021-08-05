@@ -193,5 +193,5 @@ v1.0（2021.8.4） 初次提交
 
 -  Apache-2.0 License
 - 本软件使用了GitHub上的开源项目[WECHATY-PUPPET-WECHAT](https://github.com/wechaty/wechaty-puppet-wechat)
-- 请合理使用，使用者应遵守相应的法律法规，一切法律问题及后果与作者无关，Don't be evil
+- 请合理使用，使用者应遵守相应的法律法规，一切法律问题及后果与作者无关，***Don't be evil***
 
