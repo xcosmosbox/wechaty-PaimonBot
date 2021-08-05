@@ -40,9 +40,9 @@ function onScan(qrcode: string | number | boolean, status: any) {
 // 登录
 async function onLogin(user: any) {
   console.log(`你的小助手Paimon登录了，龙哥你醒醒啊！`);
-  if (config.AUTOREPLY) {
-    console.log(`${user}已开启机器人自动聊天模式`);
-  }
+  // if (config.AUTOREPLY) {
+  //   console.log(`${user}已开启机器人自动聊天模式`);
+  // }
   // 登陆后创建定时任务
   //await initDay();
 }
@@ -83,9 +83,9 @@ async function onMessage(message: Message){
               const data = userJson[city_name];
               const dataStr = JSON.stringify(data)
               room?.say(city_name+"今日天气： \n"+dataStr) // 输出数据
-              const image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png'
+              const image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
               const fileBox = FileBox.fromFile(image_path_in_dir)
-              room?.say(fileBox)
+              room?.say(fileBox) //发送图片
             }
           }
         }
@@ -121,44 +121,9 @@ async function onMessage(message: Message){
       //另外的人
     }
     
-    
-
-    //const room = await bot.Friendship.name;
-    //Room.find({topic: '《英语课同学》'});
-    // switch(message.type())
-    // {
-    //   case Message.Type.Text:
-    //     let text = message.text();
-    //     if(text == "天气")
-    //     {
-          
-    //     }
-    // }
 }
 
-// .on("message", async (message: Message) => {
-//     console.log(`on message: ${message.toString()}`);
-    
 
-    // const room = await bot.Room.find({topic: '《英语课同学》'});
-    
-    // switch(message.type())
-    // {
-    //         case Message.Type.Text:
-    //             var text = message.text();
-    //             if(text == "@")
-    //             {
-    //                 if(room != null)
-    //                 {
-    //                     room.say('你好啊！');
-    //                     return 0;
-    //                 }
-    //                 return 0;
-    //             }
-
-
-    //             break;
-    // }
 
 //登出
 function onLogout(user: any) {
