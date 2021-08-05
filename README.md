@@ -49,7 +49,11 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 ## GETTING STARTED
 
-> ### Linux 环境
+[Linux环境](#Linux)    [Windows环境](#win)    macOS环境
+
+
+
+<h3  id="Linux">Linux环境</h3>
 
 ***NOTE：Linux配置应不低于1核1GB内存，推荐2核2GB内存***
 
@@ -181,7 +185,7 @@ ts-node PaimonBot.js
 
 
 
-> ### Windows 环境
+<span id="win">Windows环境</span>
 
 1.安装`Node.js v14`
 
