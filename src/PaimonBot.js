@@ -36,11 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var config_1 = require("wechaty-puppet-wechat/node_modules/rxjs/internal/config");
+// import { config } from "wechaty-puppet-wechat/node_modules/rxjs/internal/config";
 //import { Message } from "wechaty";
 var wechaty_1 = require("wechaty");
-var fs = require("fs");
-var wechaty_2 = require("wechaty");
+var onMessage_1 = require("./onMessage");
 var name = 'wechat-puppet-wechat';
 //let bot = ;
 var bot = new wechaty_1.Wechaty({
@@ -54,114 +53,85 @@ function onScan(qrcode, status) {
         encodeURIComponent(qrcode),
     ].join('');
     console.log(qrcodeImageUrl);
-    //    if (status === ScanStatus.Waiting && qrcode) {
-    //         require('qrcode-terminal').generate(qrcode); // 在console端显示二维码
-    //         const qrcodeImageUrl = [
-    //             'https://wechaty.js.org/qrcode/',
-    //             encodeURIComponent(qrcode),
-    //           ].join('');
-    //         console.log(`onScan: ${ScanStatus[status]}(${status}) - ${qrcodeImageUrl}`);
-    //    } else {
-    //         console.log(`onScan: ${ScanStatus[status]}(${status})`);
-    //    }
 }
 // 登录
 function onLogin(user) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             console.log("\u4F60\u7684\u5C0F\u52A9\u624BPaimon\u767B\u5F55\u4E86\uFF0C\u9F99\u54E5\u4F60\u9192\u9192\u554A\uFF01");
-            if (config_1.config.AUTOREPLY) {
-                console.log(user + "\u5DF2\u5F00\u542F\u673A\u5668\u4EBA\u81EA\u52A8\u804A\u5929\u6A21\u5F0F");
-            }
             return [2 /*return*/];
         });
     });
 }
-function onMessage(message) {
-    return __awaiter(this, void 0, void 0, function () {
-        var follows_talker, room, text, strStart, strEnd, city_name, urlfile, userJson, data, dataStr, image_path_in_dir, fileBox, text, city_name, urlfile, userJson, data, dataStr;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    // get message
-                    console.log('on message: ' + message.toString()); //打印信息内容
-                    // console.log(message.talker().id); //获得用户的唯一id
-                    console.log(message.talker().name().toString()); //获得用户的姓名 //这个感觉靠谱点
-                    console.log(message.talker().alias().toString()); //获得给用户备注的名字
-                    console.log(message.conversation());
-                    return [4 /*yield*/, bot.Contact.find({ name: '理智丧失' })];
-                case 1:
-                    follows_talker = _a.sent();
-                    return [4 /*yield*/, bot.Room.find({ topic: '《英语课同学》' })];
-                case 2:
-                    room = _a.sent();
-                    // type tag = ReturnType<typeof message.conversation>
-                    // Post message
-                    if (message.room() != null) {
-                        text = message.text();
-                        strStart = text.charAt(0) + text.charAt(1) + text.charAt(2) + text.charAt(3) + text.charAt(4);
-                        strEnd = text.substring(6, text.length);
-                        if (strStart == '@理智丧失') {
-                            //如果长度为4
-                            if (strEnd.length == 4) { //如果第三个和第四个字符是'天气'
-                                if (strEnd.charAt(2) == '天' && strEnd.charAt(3) == '气') { //取第一个和第二个字符组成为城市名
-                                    city_name = strEnd.charAt(0) + strEnd.charAt(1);
-                                    urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json";
-                                    if (fs.existsSync(urlfile)) {
-                                        userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
-                                        data = userJson[city_name];
-                                        dataStr = JSON.stringify(data);
-                                        room === null || room === void 0 ? void 0 : room.say(city_name + "今日天气： \n" + dataStr); // 输出数据
-                                        image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png';
-                                        fileBox = wechaty_2.FileBox.fromFile(image_path_in_dir);
-                                        room === null || room === void 0 ? void 0 : room.say(fileBox);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        //  如果是理智丧失在说话
-                        if (message.talker().name() == '理智丧失') {
-                            text = message.text();
-                            //如果长度为4
-                            if (text.length == 4) { //如果第三个和第四个字符是'天气'
-                                if (text.charAt(2) == '天' && text.charAt(3) == '气') { //取第一个和第二个字符组成为城市名
-                                    city_name = text.charAt(0) + text.charAt(1);
-                                    urlfile = "../PyMode/WeatherCrawlMode/out/" + city_name + ".json";
-                                    if (fs.existsSync(urlfile)) {
-                                        userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
-                                        data = userJson[city_name];
-                                        dataStr = JSON.stringify(data);
-                                        follows_talker === null || follows_talker === void 0 ? void 0 : follows_talker.say(city_name + "今日天气： \n" + dataStr); // 输出数据
-                                    }
-                                }
-                            }
-                        }
-                        //另外的人
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-// .on("message", async (message: Message) => {
-//     console.log(`on message: ${message.toString()}`);
-// const room = await bot.Room.find({topic: '《英语课同学》'});
-// switch(message.type())
-// {
-//         case Message.Type.Text:
-//             var text = message.text();
-//             if(text == "@")
+// async function onMessage(message: Message){
+//     // get message
+//     console.log('on message: ' + message.toString()); //打印信息内容
+//     // console.log(message.talker().id); //获得用户的唯一id
+//     console.log(message.talker().name().toString()); //获得用户的姓名 //这个感觉靠谱点
+//     console.log(message.talker().alias().toString()); //获得给用户备注的名字
+//     console.log(message.conversation())
+//     // Monitoring area
+//     const follows_talker = await bot.Contact.find({name: '理智丧失'})
+//     const room = await bot.Room.find({topic: '《英语课同学》'});
+//     // type tag = ReturnType<typeof message.conversation>
+//     // Post message
+//     if(message.room() != null)
+//     {
+//       // get text in message
+//       let text = message.text();
+//       const strStart = text.charAt(0)+text.charAt(1)+text.charAt(2)+text.charAt(3)+text.charAt(4)
+//       const strEnd = text.substring(6,text.length)
+//       if(strStart == '@理智丧失')
+//       {
+//         //如果长度为4
+//         if(strEnd.length == 4)
+//         { //如果第三个和第四个字符是'天气'
+//           if(strEnd.charAt(2) == '天' && strEnd.charAt(3) == '气')
+//           { //取第一个和第二个字符组成为城市名
+//             const city_name = strEnd.charAt(0) + strEnd.charAt(1)
+//             //取得json文件
+//             const urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json" 
+//             if(fs.existsSync(urlfile))
 //             {
-//                 if(room != null)
-//                 {
-//                     room.say('你好啊！');
-//                     return 0;
-//                 }
-//                 return 0;
+//               let userJson = JSON.parse(fs.readFileSync(urlfile,'utf-8'));
+//               const data = userJson[city_name];
+//               const dataStr = JSON.stringify(data)
+//               room?.say(city_name+"今日天气： \n"+dataStr) // 输出数据
+//               const image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
+//               const fileBox = FileBox.fromFile(image_path_in_dir)
+//               room?.say(fileBox) //发送图片
 //             }
-//             break;
+//           }
+//         }
+//       }
+//     }
+//     else
+//     {
+//       //  如果是理智丧失在说话
+//       if(message.talker().name() == '理智丧失')
+//       {
+//         // get text in message
+//         let text = message.text();
+//         //如果长度为4
+//         if(text.length == 4)
+//         { //如果第三个和第四个字符是'天气'
+//           if(text.charAt(2) == '天' && text.charAt(3) == '气')
+//           { //取第一个和第二个字符组成为城市名
+//             const city_name = text.charAt(0) + text.charAt(1)
+//             //取得json文件
+//             const urlfile = "../PyMode/WeatherCrawlMode/out/" + city_name + ".json" 
+//             if(fs.existsSync(urlfile))
+//             {
+//               let userJson = JSON.parse(fs.readFileSync(urlfile,'utf-8'));
+//               const data = userJson[city_name];
+//               const dataStr = JSON.stringify(data)
+//               follows_talker?.say(city_name+"今日天气： \n"+dataStr) // 输出数据
+//             }
+//           }
+//         }
+//       }
+//       //另外的人
+//     }
 // }
 //登出
 function onLogout(user) {
@@ -169,7 +139,7 @@ function onLogout(user) {
 }
 bot.on('scan', onScan);
 bot.on('login', onLogin);
-bot.on('message', onMessage);
+bot.on('message', onMessage_1.onMessage);
 bot.on('logout', onLogout);
 bot
     .start()
