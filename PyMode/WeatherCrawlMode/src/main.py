@@ -2,9 +2,11 @@
 
 #导包
 from codecs import encode
+from concurrent.futures import thread
 import datetime
 import os
 from sys import flags, path
+from types import resolve_bases
 from typing import Pattern
 import requests
 import re
@@ -25,8 +27,12 @@ import os
 import pyecharts.options as opts
 from pyecharts.charts import Line
 from pyecharts.globals import ThemeType
+import _thread
+import threading
 
 ALL_DATA = []
+DICT_CITY_NAME = []
+I_CITY_NAME = []
 
 #解析页面的方法
 def parse_page(url):
@@ -81,7 +87,7 @@ def parse_page(url):
 
 
 ############################### draw ###############################
-def draw(city_name,dict_week):
+def draw(num,dict_week):
     print("开始绘制图片")
     # jsonStr = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/city_json/'+ city_name +'.json'
     # with open(jsonStr,encoding="utf-8") as readFile:
@@ -95,11 +101,13 @@ def draw(city_name,dict_week):
     # print(type(f_str))
     # dict_json = json.load(f_str)
     # dict_json = json.loads(jsonStr)
+    num = num + 1
     dict_json = dict_week
     for key in dict_json:
         # print(key) # 获得第一个key：'上海'
         # print(dict_json[key]) # 获得key'上海'所对应的value
         w_key = key 
+        city_name = key
     day_dict_json = dict_json[w_key] # 此处将 获得key'上海'所对应的value 作为新的json赋值了对象
    
     d_key = [] #存放日期对应的数据集，对应图片的纵坐标
@@ -181,6 +189,73 @@ def draw(city_name,dict_week):
 #     )
 #     return c
 
+# def crawl(i):
+    
+#     # print(type(i['city_url']))
+#     # 传回 res 字典，字典内包含了一个地区 七天内 的天气
+#     print("1")
+#     res = weather(url = i['city_url'])
+#     # print(i['city'])
+#     # print("*****") //flag
+#     # 将传回的 res字典 整体作为新的 value ，以当地地区的名字作为 key，生成新的字典
+    
+#     dict_week = {i['city'] : res}
+
+#     #构造仅仅包含了城市名，且value都为true都json文件
+#     dict_city_name_origin = {i['city'] : True}
+#     DICT_CITY_NAME.append(dict_city_name_origin)
+
+#     #设置输出路径 
+#     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/city_json/'+ i['city'] +'.json'
+#     city_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/cityNumber.json'
+    
+#     #开始输出json文件
+#     if not os.path.exists(path):
+#         print("create " + str(path)) # 提示新建了json文件
+#         with open(path, "w",encoding='utf-8') as new_file:
+#             #使用 json.dump生成json文件
+#             json.dump(dict_week, new_file, indent=4, ensure_ascii=False)
+#                 # time.sleep(2)
+#             print(i['city']+".json"+"写入完成")
+
+#             draw(dict_week)
+#                 # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+#                 # # 多线程绘图模块
+#                 # try:
+#                 #     _thread.start_new_thread( draw,(dict_week,) )
+#                 # except:
+#                 #     print ("Error: 无法启动线程")
+#                 # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+
+#                 # time.sleep(1)
+#                 # try:
+#                 #     draw(i['city'],dict_week)
+#                 # except:
+#                 #     print("Error: unable to start thread")
+#     else:
+#         print("cover "+str(path)) # 覆盖旧文件
+#         with open(path, "w",encoding='utf-8') as file_write:
+#                 #使用 json.dump生成json文件
+#             json.dump(dict_week, file_write, indent=4, ensure_ascii=False)
+#             print(i['city']+".json"+"写入完成")
+#                 # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+#                 # # 多线程绘图模块
+#                 # try:
+#                 #     _thread.start_new_thread( draw,(dict_week,) )
+#                 # except:
+#                 #     print ("Error: 无法启动线程")
+#                 # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+
+#             draw(dict_week)
+#                 # try:
+#                 #     draw(dict_week)
+#                 #     # t = threading.Thread(target = draw,kwargs = {city_name:res})
+#                 #     # t.start()
+#                 # except:
+#                 #     print("Error: unable to start thread")
+#     #将城市名目录的json文件写入指定位置
+
+
 ############################### main ###############################
 #执行方法
 def main():
@@ -205,17 +280,26 @@ def main():
     # 一共有462个
     # m = 0
     # dict_Weather = []
-    
+    dict_city_name = []
+    # num = 1
     for i in ALL_DATA:
-        # print(type(i['city_url']))
+        # _thread.start_new_thread( crawl,(i,) )
+        I_CITY_NAME.append(i['city']) #将城市名单独形成一个列表
+        print(type(i['city_url']))
         # 传回 res 字典，字典内包含了一个地区 七天内 的天气
         res = weather(url = i['city_url'])
         # print(i['city'])
         # print("*****") //flag
         # 将传回的 res字典 整体作为新的 value ，以当地地区的名字作为 key，生成新的字典
         dict_week = {i['city'] : res}
+
+        #构造仅仅包含了城市名，且value都为true都json文件
+        dict_city_name_origin = {i['city'] : True}
+        dict_city_name.append(dict_city_name_origin)
+
         #设置输出路径 
         path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/city_json/'+ i['city'] +'.json'
+        city_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/cityNumber.json'
         #开始输出json文件
         if not os.path.exists(path):
             print("create " + str(path)) # 提示新建了json文件
@@ -224,18 +308,59 @@ def main():
                 json.dump(dict_week, new_file, indent=4, ensure_ascii=False)
                 # time.sleep(2)
                 print(i['city']+".json"+"写入完成")
-                # time.sleep(3)
-                draw(i['city'],dict_week)
+
+                # draw(dict_week)
+                # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+                # # 多线程绘图模块
+                # try:
+                #     _thread.start_new_thread( draw,(dict_week,) )
+                # except:
+                #     print ("Error: 无法启动线程")
+                # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+
+                # time.sleep(1)
+                # try:
+                #     draw(i['city'],dict_week)
+                # except:
+                #     print("Error: unable to start thread")
         else:
             print("cover "+str(path)) # 覆盖旧文件
             with open(path, "w",encoding='utf-8') as file_write:
                 #使用 json.dump生成json文件
                 json.dump(dict_week, file_write, indent=4, ensure_ascii=False)
                 print(i['city']+".json"+"写入完成")
-                draw(i['city'],dict_week)
+                # time.sleep(0.5) #减缓多线程的速度，避免出现异常
+                # # 多线程绘图模块
+                # try:
+                #     _thread.start_new_thread( draw,(dict_week,) )
+                # except:
+                #     print ("Error: 无法启动线程")
+                # time.sleep(0.5) #减缓多线程的速度，避免出现异常
 
+                # draw(dict_week)
+                # try:
+                #     draw(dict_week)
+                #     # t = threading.Thread(target = draw,kwargs = {city_name:res})
+                #     # t.start()
+                # except:
+                #     print("Error: unable to start thread")
+  
+    # 将城市名目录的json文件写入指定位置
+    with open(city_path, "w",encoding='utf-8') as num_file:
+        json.dump(dict_city_name,num_file,indent=4, ensure_ascii=False)
 
+    print(len(dict_city_name))
 
+    for num in range(462):
+        url_json_file = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/out/city_json/'+I_CITY_NAME[num]+'.json'
+        with open(url_json_file,"r") as fr:
+            end_json = json.loads(fr.read())
+            try:
+                _thread.start_new_thread( draw,(1,end_json))
+                time.sleep(2)
+            except:
+                print("error")
+    time.sleep(30)
         # temp = ""
         # print(i['city'])
         # for k in res:
