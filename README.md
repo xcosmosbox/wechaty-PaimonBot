@@ -409,6 +409,52 @@ python3 main.py
 
 启动成功
 
+
+
+## 使用说明
+
+位于`wechaty-PaimonBot`文件夹下存在一个名为`json`的文件夹<img src="./Image/截屏2021-08-06 下午3.59.00.png" alt="截屏2021-08-06 下午3.59.00" style="zoom:50%;" />
+
+进入`json`文件夹后，有`friendAndRoomInfo`和`QA`这两个json文件
+
+
+
+> `friendAndRoomInfo.json`
+
+文件内结构如下：<img src="./Image/截屏2021-08-06 下午4.03.12.png" alt="截屏2021-08-06 下午4.03.12" style="zoom:50%;" />
+
+`myName`后的双引号内填入使用机器人的微信账户的名称
+
+`room_Keys`内以`“群聊名称”:true`的形式填入需要机器人运作的群聊
+
+`friend_Keys`内以`“朋友的微信名称”:true`的形式填入需要机器人关注的的朋友（名称为账户名称，非备注名称）
+
+
+
+> `QA.json`
+
+文件内结构如下：<img src="./Image/截屏2021-08-06 下午4.06.03.png" alt="截屏2021-08-06 下午4.06.03" style="zoom:50%;" />
+
+以`“问题”:“回答”`的形式，填入任意数量的问答，机器人会自动匹配问题并自动回复答案
+
+
+
+> 天气模块的使用
+
+对于个人聊天，可以直接使用`地点+天气`的问答形式获取当地的天气，已经天气的可视化图片。如果地点不存，则会提示这个地点是错误的。<img src="./Image/WechatIMG147.jpeg" alt="WechatIMG147" style="zoom:100%;" />
+
+<img src="./Image/WechatIMG146.png" alt="WechatIMG146" style="zoom:100%;" />
+
+![WechatIMG148](./Image/WechatIMG148.jpeg)
+
+<h3>在群聊中的任何对话都需要`@`机器人才能触发</h3>
+
+![WechatIMG151](./Image/WechatIMG151.jpeg)
+
+<h3>对于任何非天气的问话，机器人都会使用`QA.json`文件中的答案进行回答</h3>
+
+![WechatIMG149](./Image/WechatIMG149.jpeg)
+
 ## Q&A
 
 

@@ -181,16 +181,13 @@ function onMessage(message) {
 exports.onMessage = onMessage;
 //使用这个函数判断用户是否想要得到天气数据
 function isWeatherMsg(strEnd) {
-    console.log("start");
     //如果末尾字符是'天气'
-    console.log(strEnd.charAt(strEnd.length - 2));
-    console.log(strEnd.charAt(strEnd.length - 1));
     if (strEnd.charAt(strEnd.length - 2) == '天' && strEnd.charAt(strEnd.length - 1) == '气') {
-        console.log("true");
+        console.log("isWeatherMsg: true");
         return true;
     }
     else {
-        console.log("false");
+        console.log("isWeatherMsg: false");
         return false;
     }
 }
