@@ -41,7 +41,7 @@ var wechaty_1 = require("wechaty");
 var fs = require("fs");
 function onMessage(message) {
     return __awaiter(this, void 0, void 0, function () {
-        var contact, text, room, infoFile, friendAndRoomJson, myName, start_length, strStart, strEnd, start_length_1, strEnd_1, room_name, city_name, urlfile, userJson, data, dataStr, image_path_in_dir, fileBox, error_1, QAFile, QAJson, contact_name, city_name, urlfile, userJson, data, dataStr, image_path_in_dir, fileBox, error_2, QAFile, QAJson;
+        var contact, text, room, infoFile, friendAndRoomJson, myName, strStart, start_length, strEnd, room_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson, contact_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -51,9 +51,7 @@ function onMessage(message) {
                     infoFile = "../json/friendAndRoomInfo.json";
                     friendAndRoomJson = JSON.parse(fs.readFileSync(infoFile, 'utf-8'));
                     myName = friendAndRoomJson["myName"];
-                    start_length = 2 + myName.length;
                     strStart = text.charAt(0) + text.charAt(1) + text.charAt(2) + text.charAt(3) + text.charAt(4);
-                    strEnd = text.substring(start_length, text.length);
                     //消息如果是自己发的，直接return，别浪费内存了
                     if (message.self()) {
                         console.log("消息是我自己发的不用管");
@@ -61,92 +59,109 @@ function onMessage(message) {
                     }
                     // print message
                     console.log('on message: ' + message.toString()); //打印信息内容
-                    console.log("这是 strEnd 的内容：" + strEnd);
-                    console.log("这是 strEnd 的长度：" + strEnd.length);
-                    if (!room) return [3 /*break*/, 6];
-                    start_length_1 = 2 + myName.length;
-                    strEnd_1 = text.substring(start_length_1, text.length);
+                    if (!room) return [3 /*break*/, 5];
+                    start_length = 2 + myName.length;
+                    strEnd = text.substring(start_length, text.length);
                     return [4 /*yield*/, room.topic()];
                 case 1:
                     room_name = _a.sent();
-                    console.log(room_name);
-                    console.log("群聊时是谁在说话：" + contact.name());
+                    // console.log(room_name)
+                    // console.log("群聊时是谁在说话："+contact.name())
                     if ((friendAndRoomJson["room_Keys"])[room_name] == undefined) {
                         console.log("这不是我关注的群聊");
                         return [2 /*return*/, 0]; //找不到说明不是关注的群聊，直接返回
                     }
                     //判断是否为at我，不是也不需要管这个信息了，直接return
-                    console.log(strStart == ("@" + myName));
+                    // console.log(strStart == ("@"+myName))
                     if (strStart != ("@" + myName)) {
-                        console.log("没有at我");
+                        // console.log("没有at我");
                         return [2 /*return*/, 0];
                     }
-                    if (!isWeatherMsg(strEnd_1)) return [3 /*break*/, 5];
-                    city_name = strEnd_1.charAt(0) + strEnd_1.charAt(1);
+                    if (!isWeatherMsg(strEnd)) return [3 /*break*/, 4];
+                    city_name = strEnd.substring(0, strEnd.length - 2);
                     urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json";
-                    if (!fs.existsSync(urlfile)) return [3 /*break*/, 5];
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 3, , 5]);
-                    userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
-                    data = userJson[city_name];
-                    dataStr = JSON.stringify(data);
-                    room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + city_name + "今日天气： \n" + dataStr); // 输出数据
-                    image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
+                    city_name_list_File = "../PyMode/WeatherCrawlMode/out/cityNumber.json" //json文件的存储地址
                     ;
-                    fileBox = wechaty_1.FileBox.fromFile(image_path_in_dir);
-                    room.say(fileBox); //发送图片
-                    return [2 /*return*/, 0];
-                case 3:
-                    error_1 = _a.sent();
-                    room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + "你在赣神谟？");
+                    city_name_list_Json = JSON.parse(fs.readFileSync(city_name_list_File, 'utf-8'));
+                    i = void 0;
+                    flag = false;
+                    for (i = 0; i < 462; i++) {
+                        if ((city_name_list_Json[i])[city_name]) {
+                            flag = true;
+                        }
+                    }
+                    if (!flag) return [3 /*break*/, 2];
+                    if (fs.existsSync(urlfile)) {
+                        userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
+                        data = userJson[city_name];
+                        dataStr = JSON.stringify(data);
+                        room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + city_name + "今日天气： \n" + dataStr); // 输出数据
+                        image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
+                        ;
+                        fileBox = wechaty_1.FileBox.fromFile(image_path_in_dir);
+                        room.say(fileBox); //发送图片
+                        return [2 /*return*/, 0];
+                    }
+                    return [3 /*break*/, 4];
+                case 2:
+                    room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + "你在赣神魔？");
                     return [4 /*yield*/, Sleep(1000)];
-                case 4:
+                case 3:
                     _a.sent();
                     room.say("这个城市压根不存在！");
                     return [2 /*return*/, 0];
-                case 5:
+                case 4:
                     QAFile = "../json/QA.json" //json文件的存储地址
                     ;
                     QAJson = JSON.parse(fs.readFileSync(QAFile, 'utf-8'));
-                    if (QAJson[strEnd_1] != undefined) //不是undefined说明有对应的问答
+                    if (QAJson[strEnd] != undefined) //不是undefined说明有对应的问答
                      {
-                        room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + QAJson[strEnd_1]); //将对应的问答回复他人
+                        room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + QAJson[strEnd]); //将对应的问答回复他人
                     }
                     else {
                         room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + "我不是很懂你在说什么。。。");
                     }
-                    return [3 /*break*/, 11];
-                case 6:
+                    return [3 /*break*/, 9];
+                case 5:
                     contact_name = contact === null || contact === void 0 ? void 0 : contact.name();
                     if ((friendAndRoomJson["friend_Keys"])[contact_name] == undefined)
                         return [2 /*return*/, 0]; //找不到说明不是关注的私聊，直接返回
                     console.log(contact_name);
-                    if (!isWeatherMsg(text)) return [3 /*break*/, 10];
-                    city_name = text.charAt(0) + text.charAt(1);
+                    if (!isWeatherMsg(text)) return [3 /*break*/, 8];
+                    city_name = text.substring(0, text.length - 2);
                     urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json";
-                    if (!(fs.existsSync(urlfile) && contact != null)) return [3 /*break*/, 10];
-                    _a.label = 7;
-                case 7:
-                    _a.trys.push([7, 8, , 10]);
-                    userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
-                    data = userJson[city_name];
-                    dataStr = JSON.stringify(data);
-                    contact.say(city_name + "今日天气： \n" + dataStr); // 输出数据
-                    image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
+                    city_name_list_File = "../PyMode/WeatherCrawlMode/out/cityNumber.json" //json文件的存储地址
                     ;
-                    fileBox = wechaty_1.FileBox.fromFile(image_path_in_dir);
-                    contact.say(fileBox); //发送图片
-                    return [2 /*return*/, 0];
-                case 8:
-                    error_2 = _a.sent();
+                    city_name_list_Json = JSON.parse(fs.readFileSync(city_name_list_File, 'utf-8'));
+                    i = void 0;
+                    flag = false;
+                    for (i = 0; i < 462; i++) {
+                        if ((city_name_list_Json[i])[city_name]) {
+                            flag = true;
+                        }
+                    }
+                    if (!flag) return [3 /*break*/, 6];
+                    //开始对天气信息进行输出
+                    if (fs.existsSync(urlfile) && contact != null) {
+                        userJson = JSON.parse(fs.readFileSync(urlfile, 'utf-8'));
+                        data = userJson[city_name];
+                        dataStr = JSON.stringify(data);
+                        contact.say(city_name + "今日天气： \n" + dataStr); // 输出数据
+                        image_path_in_dir = '../PyMode/WeatherCrawlMode/out/city_pic/' + city_name + '.png' //获取天气图片的地址
+                        ;
+                        fileBox = wechaty_1.FileBox.fromFile(image_path_in_dir);
+                        contact.say(fileBox); //发送图片
+                        return [2 /*return*/, 0];
+                    }
+                    return [3 /*break*/, 8];
+                case 6:
                     contact.say("你在赣神谟？");
                     return [4 /*yield*/, Sleep(1000)];
-                case 9:
+                case 7:
                     _a.sent();
                     contact.say("这个城市压根不存在！");
                     return [2 /*return*/, 0];
-                case 10:
+                case 8:
                     QAFile = "../json/QA.json" //json文件的存储地址
                     ;
                     QAJson = JSON.parse(fs.readFileSync(QAFile, 'utf-8'));
@@ -157,8 +172,8 @@ function onMessage(message) {
                     else {
                         contact === null || contact === void 0 ? void 0 : contact.say("我不是很懂你在说什么。。。");
                     }
-                    _a.label = 11;
-                case 11: return [2 /*return*/];
+                    _a.label = 9;
+                case 9: return [2 /*return*/];
             }
         });
     });
@@ -166,21 +181,18 @@ function onMessage(message) {
 exports.onMessage = onMessage;
 //使用这个函数判断用户是否想要得到天气数据
 function isWeatherMsg(strEnd) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            //如果长度为4
-            if (strEnd.length == 4) { //如果第三个和第四个字符是'天气'
-                if (strEnd.charAt(2) == '天' && strEnd.charAt(3) == '气') {
-                    return [2 /*return*/, true];
-                }
-                else
-                    return [2 /*return*/, false];
-            }
-            else
-                return [2 /*return*/, false];
-            return [2 /*return*/];
-        });
-    });
+    console.log("start");
+    //如果末尾字符是'天气'
+    console.log(strEnd.charAt(strEnd.length - 2));
+    console.log(strEnd.charAt(strEnd.length - 1));
+    if (strEnd.charAt(strEnd.length - 2) == '天' && strEnd.charAt(strEnd.length - 1) == '气') {
+        console.log("true");
+        return true;
+    }
+    else {
+        console.log("false");
+        return false;
+    }
 }
 //休眠程序
 var Sleep = function (ms) {

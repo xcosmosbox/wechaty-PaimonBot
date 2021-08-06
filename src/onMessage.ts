@@ -53,14 +53,25 @@ export async function onMessage(message:Message) {
         if(isWeatherMsg(strEnd))
         {
             //取第一个和第二个字符组成为城市名
-            const city_name = strEnd.charAt(0) + strEnd.charAt(1)
+            const city_name = strEnd.substring(0,strEnd.length-2)
             //取得json文件
             const urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json" 
+            const city_name_list_File = "../PyMode/WeatherCrawlMode/out/cityNumber.json" //json文件的存储地址
+            const city_name_list_Json = JSON.parse(fs.readFileSync(city_name_list_File,'utf-8')); //json文件的读取
             //开始对天气信息进行输出
-            if(fs.existsSync(urlfile))
+            let i;
+            var flag = false;
+            for( i=0;i<462;i++)
             {
-                //即使拥有前面对判断，但是城市名本身可能是个不存在对城市，因为我们需要try-catch
-                try {
+                if((city_name_list_Json[i])[city_name])
+                {
+                    flag = true
+                }
+            }
+            if(flag) //即使拥有前面对判断，但是城市名本身可能是个不存在对城市
+            {
+                if(fs.existsSync(urlfile))
+                {
                     let userJson = JSON.parse(fs.readFileSync(urlfile,'utf-8'));
                     const data = userJson[city_name];
                     const dataStr = JSON.stringify(data)
@@ -69,13 +80,16 @@ export async function onMessage(message:Message) {
                     const fileBox = FileBox.fromFile(image_path_in_dir)
                     room.say(fileBox) //发送图片
                     return 0
-                } catch (error) {
-                    room.say(`@${contact?.name()} `+"你在赣神魔？")
-                    await Sleep(1000)
-                    room.say("这个城市压根不存在！")
-                    return 0
-                }  
+                }
             }
+            else
+            {
+                room.say(`@${contact?.name()} `+"你在赣神魔？")
+                await Sleep(1000)
+                room.say("这个城市压根不存在！")
+                return 0
+            }
+            
         }
 
         //到了此处却没有被return，说明进入了固定问答模块
@@ -105,14 +119,25 @@ export async function onMessage(message:Message) {
         if(isWeatherMsg(text))
         {
             //取第一个和第二个字符组成为城市名
-            const city_name = text.charAt(0) + text.charAt(1)
+            const city_name = text.substring(0,text.length-2)
             //取得json文件
             const urlfile = "../PyMode/WeatherCrawlMode/out/city_json/" + city_name + ".json" 
-            //开始对天气信息进行输出
-            if(fs.existsSync(urlfile) && contact!=null)
+            const city_name_list_File = "../PyMode/WeatherCrawlMode/out/cityNumber.json" //json文件的存储地址
+            const city_name_list_Json = JSON.parse(fs.readFileSync(city_name_list_File,'utf-8')); //json文件的读取
+            let i;
+            var flag = false;
+            for( i=0;i<462;i++)
             {
-                //即使拥有前面对判断，但是城市名本身可能是个不存在对城市，因为我们需要try-catch
-                try {
+                if((city_name_list_Json[i])[city_name])
+                {
+                    flag = true
+                }
+            }
+            if(flag)
+            {
+                //开始对天气信息进行输出
+                if(fs.existsSync(urlfile) && contact!=null)
+                {   
                     let userJson = JSON.parse(fs.readFileSync(urlfile,'utf-8'));
                     const data = userJson[city_name];
                     const dataStr = JSON.stringify(data)
@@ -121,15 +146,16 @@ export async function onMessage(message:Message) {
                     const fileBox = FileBox.fromFile(image_path_in_dir)
                     contact.say(fileBox) //发送图片
                     return 0
-                } catch (error) {
-                    contact.say("你在赣神谟？")
-                    await Sleep(1000)
-                    contact.say("这个城市压根不存在！")
-                    return 0
                 }
-                
-                
             }
+            else
+            {
+                contact.say("你在赣神谟？")
+                await Sleep(1000)
+                contact.say("这个城市压根不存在！")
+                return 0
+            }
+            
         }
 
         //到了此处却没有被return，说明进入了固定问答模块
@@ -150,17 +176,20 @@ export async function onMessage(message:Message) {
 
 
 //使用这个函数判断用户是否想要得到天气数据
-async function isWeatherMsg(strEnd:string){
-    //如果长度为4
-    if(strEnd.length == 4)
-    { //如果第三个和第四个字符是'天气'
-        if(strEnd.charAt(2) == '天' && strEnd.charAt(3) == '气')
-        { 
-            return true
-        }
-        else return false
+function isWeatherMsg(strEnd:string){
+    
+    //如果末尾字符是'天气'
+    if(strEnd.charAt(strEnd.length-2) == '天' && strEnd.charAt(strEnd.length-1) == '气')
+    { 
+        console.log("isWeatherMsg: true")
+        return true
     }
-    else return false
+    else 
+    {
+        console.log("isWeatherMsg: false")
+        return false
+    }
+    
 }
 
 //休眠程序
