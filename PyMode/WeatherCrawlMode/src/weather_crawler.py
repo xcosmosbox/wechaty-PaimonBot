@@ -7,6 +7,30 @@ import datetime
 
 from pyecharts.types import SankeyLevel
 
+from codecs import encode
+import datetime
+import os
+from sys import flags, path
+from typing import Pattern
+import requests
+import re
+from bs4 import BeautifulSoup
+from pyecharts.charts import Bar
+
+from pyecharts import options as opts
+
+
+from pyecharts.render import make_snapshot
+from snapshot_selenium import snapshot
+import time
+
+import json
+import json
+import os
+import pyecharts.options as opts
+from pyecharts.charts import Line
+from pyecharts.globals import ThemeType
+
 
 
 def weather (url) :
