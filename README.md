@@ -413,7 +413,7 @@ python3 main.py
 
 ## 使用说明
 
-位于`wechaty-PaimonBot`文件夹下存在一个名为`json`的文件夹<img src="./Image/截屏2021-08-06 下午3.59.00.png" alt="截屏2021-08-06 下午3.59.00" style="zoom:50%;" />
+位于`wechaty-PaimonBot`文件夹下存在一个名为`json`的文件夹<img src="./Image/截屏2021-08-06 下午3.59.00.png" alt="截屏2021-08-06 下午3.59.00" style="zoom:33%;" />
 
 进入`json`文件夹后，有`friendAndRoomInfo`和`QA`这两个json文件
 
