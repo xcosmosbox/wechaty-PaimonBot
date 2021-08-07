@@ -11,7 +11,7 @@ export async function onMessage(message:Message) {
     const infoFile = "../json/friendAndRoomInfo.json"; //json文件的存储地址
     const friendAndRoomJson = JSON.parse(fs.readFileSync(infoFile,'utf-8')); //json文件的读取
     const myName = friendAndRoomJson["myName"]; //获得使用者登录的微信号的用户名
-    const strStart = "@"+myName
+    const strStart = text.substring(0,(myName.length+1))
     
     
     //消息如果是自己发的，直接return，别浪费内存了
