@@ -395,6 +395,8 @@ ts-node PaimonBot.js
 
 ## 启用Python功能模块
 
+**NOTE：不建议Linux端使用天气的可视化模块，可能会出现未知错误。win和mac端需要安装[chromium驱动](https://sites.google.com/a/chromium.org/chromedriver/downloads)，需要安装在`/usr/bin` or `/usr/local/bin`**
+
 进入`wechaty-PaimonBot/PyMode/WeatherCrawlMode`中，运行以下命令python依赖包：
 
 ```python
@@ -408,6 +410,8 @@ python3 main.py
 ```
 
 启动成功
+
+
 
 
 
