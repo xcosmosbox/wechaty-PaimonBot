@@ -24,6 +24,7 @@
     "rx-queue": "^0.8.5",
     "rxjs": "^6.6.3",
     "state-switch": "^0.6.18",
+    "urlencode": "^1.1.0",
     "watchdog": "^0.8.17",
     "xml2js": "^0.4.23"
   },
