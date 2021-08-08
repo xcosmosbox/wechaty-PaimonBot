@@ -39,9 +39,13 @@ exports.__esModule = true;
 exports.onMessage = void 0;
 var wechaty_1 = require("wechaty");
 var fs = require("fs");
+var request = require("request");
+// 请求参数解码
+var urlencode = require("urlencode");
+// 配置文件
 function onMessage(message) {
     return __awaiter(this, void 0, void 0, function () {
-        var contact, text, room, infoFile, friendAndRoomJson, myName, strStart, start_length, strEnd, room_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson, contact_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson;
+        var contact, text, room, infoFile, friendAndRoomJson, myName, strStart, start_length, strEnd, room_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson, randomNum, api_str, execSync, output, api_res, contact_name, city_name, urlfile, city_name_list_File, city_name_list_Json, i, flag, userJson, data, dataStr, image_path_in_dir, fileBox, QAFile, QAJson, randomNum, api_str, execSync, output, api_res;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -51,7 +55,7 @@ function onMessage(message) {
                     infoFile = "../json/friendAndRoomInfo.json";
                     friendAndRoomJson = JSON.parse(fs.readFileSync(infoFile, 'utf-8'));
                     myName = friendAndRoomJson["myName"];
-                    strStart = text.charAt(0) + text.charAt(1) + text.charAt(2) + text.charAt(3) + text.charAt(4);
+                    strStart = text.substring(0, (myName.length + 1));
                     //消息如果是自己发的，直接return，别浪费内存了
                     if (message.self()) {
                         console.log("消息是我自己发的不用管");
@@ -118,10 +122,23 @@ function onMessage(message) {
                      {
                         room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + QAJson[strEnd]); //将对应的问答回复他人
                     }
-                    else {
-                        room.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + "我不是很懂你在说什么。。。");
+                    randomNum = Math.round(Math.random() * 8) + 1;
+                    if (randomNum == 1) {
+                        // 并不需要时时刻刻都智能对话，偶尔来次疑惑的话语
+                        contact === null || contact === void 0 ? void 0 : contact.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + "我不是很懂你在说什么。。。");
+                        return [2 /*return*/, 0];
                     }
-                    return [3 /*break*/, 9];
+                    else {
+                        api_str = "python3 web.py " + strEnd;
+                        execSync = require('child_process').execSync;
+                        output = execSync(api_str);
+                        api_res = output.toString();
+                        console.log('sync: ' + api_res);
+                        // 将智能对话的结果输出
+                        contact.say("@" + (contact === null || contact === void 0 ? void 0 : contact.name()) + " " + api_res);
+                        return [2 /*return*/, 0];
+                    }
+                    return [2 /*return*/, 0];
                 case 5:
                     contact_name = contact === null || contact === void 0 ? void 0 : contact.name();
                     if ((friendAndRoomJson["friend_Keys"])[contact_name] == undefined)
@@ -169,11 +186,23 @@ function onMessage(message) {
                      {
                         contact.say(QAJson[text]); //将对应的问答回复他人
                     }
-                    else {
+                    randomNum = Math.round(Math.random() * 8) + 1;
+                    if (randomNum == 1) {
+                        // 并不需要时时刻刻都智能对话，偶尔来次疑惑的话语
                         contact === null || contact === void 0 ? void 0 : contact.say("我不是很懂你在说什么。。。");
+                        return [2 /*return*/, 0];
                     }
-                    _a.label = 9;
-                case 9: return [2 /*return*/];
+                    else {
+                        api_str = "python3 web.py " + text;
+                        execSync = require('child_process').execSync;
+                        output = execSync(api_str);
+                        api_res = output.toString();
+                        console.log('sync: ' + api_res);
+                        // 将智能对话的结果输出
+                        contact.say(api_res);
+                        return [2 /*return*/, 0];
+                    }
+                    return [2 /*return*/, 0];
             }
         });
     });

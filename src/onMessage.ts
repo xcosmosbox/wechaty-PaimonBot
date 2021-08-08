@@ -1,6 +1,10 @@
 import { Message} from "wechaty";
 import { FileBox }  from 'wechaty'
 import * as fs from 'fs';
+const request = require("request")
+// 请求参数解码
+const urlencode = require("urlencode")
+// 配置文件
 
 
 export async function onMessage(message:Message) {
@@ -99,10 +103,31 @@ export async function onMessage(message:Message) {
         {
             room.say(`@${contact?.name()} `+QAJson[strEnd]) //将对应的问答回复他人
         }
+
+        //如果固定对话中没有想要的答案，那么就需要使用智能对话了
+        const randomNum = Math.round(Math.random()*8)+1;
+        if(randomNum == 1)
+        {
+            // 并不需要时时刻刻都智能对话，偶尔来次疑惑的话语
+            contact?.say(`@${contact?.name()} `+"我不是很懂你在说什么。。。")
+            return 0
+        }
         else
         {
-            room.say(`@${contact?.name()} `+"我不是很懂你在说什么。。。")
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 web.py "+strEnd
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            contact.say(`@${contact?.name()} `+api_res)
+            return 0
         }
+        return 0
         
 
 
@@ -165,10 +190,38 @@ export async function onMessage(message:Message) {
         {
             contact.say(QAJson[text]) //将对应的问答回复他人
         }
+
+        //如果固定对话中没有想要的答案，那么就需要使用智能对话了
+        const randomNum = Math.round(Math.random()*8)+1;
+        if(randomNum == 1)
+        {
+            // 并不需要时时刻刻都智能对话，偶尔来次疑惑的话语
+            contact?.say("我不是很懂你在说什么。。。")
+            return 0
+        }
         else
         {
-            contact?.say("我不是很懂你在说什么。。。")
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 web.py "+text
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            contact.say(api_res)
+            return 0
         }
+        
+        
+        
+
+
+
+        return 0
+
     }
 
 
@@ -199,3 +252,4 @@ const Sleep = (ms:number)=> {
 
 
 // module.exports = (bot: Wechaty) => {}
+
