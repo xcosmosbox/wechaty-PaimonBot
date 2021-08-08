@@ -172,6 +172,7 @@ sudo apt-get install -y libgbm1
 10.前往`root/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
 
 ```bash
+tsc onMessage.ts
 tsc PaimonBot.ts
 ```
 
@@ -274,6 +275,7 @@ npm install -g ts-node
 9.前往`C://User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
 
 ```bash
+tsc onMessage.ts
 tsc PaimonBot.ts
 ```
 
@@ -377,6 +379,7 @@ npm install -g ts-node
 9.前往`/User/「自己电脑的用户名下」/node_modules`中的`wechaty-paimonbot`包内的`src`目录中执行：
 
 ```bash
+tsc onMessage.ts
 tsc PaimonBot.ts
 ```
 
@@ -396,7 +399,7 @@ ts-node PaimonBot.js
 
 ## 启用Python功能模块
 
-**NOTE：不建议Linux端使用天气的可视化模块，可能会出现未知错误。win和mac端需要安装[chromium驱动](https://sites.google.com/a/chromium.org/chromedriver/downloads)，需要安装在`/usr/bin` or `/usr/local/bin`**
+**NOTE：不建议Linux端使用天气的可视化模块，可能会出现未知错误。win和mac端需要安装[chromium驱动](https://sites.google.com/a/chromium.org/chromedriver/downloads)，需要安装在`/usr/bin` or `/usr/local/bin`路径下**
 
 进入`wechaty-PaimonBot/PyMode/WeatherCrawlMode`中，运行以下命令python依赖包：
 
