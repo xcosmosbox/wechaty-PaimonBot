@@ -96,6 +96,28 @@ export async function onMessage(message:Message) {
             
         }
 
+        if(isSolitaire(strEnd))
+        {
+            let index = strEnd.indexOf("：")
+            let soli_Str = strEnd.substring(index+1,strEnd.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/SolitaireMode/main.py "+soli_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            room.say("我的答案是："+api_res)
+            await Sleep(1000)
+            room.say(`@${contact?.name()} `+"轮到你了")
+
+            return 0
+        }
+
+
         //到了此处却没有被return，说明进入了固定问答模块
         const QAFile = "../json/QA.json" //json文件的存储地址
         const QAJson = JSON.parse(fs.readFileSync(QAFile,'utf-8')); //json文件的读取
@@ -124,7 +146,7 @@ export async function onMessage(message:Message) {
             const api_res = output.toString()
             console.log('sync: ' + api_res)
             // 将智能对话的结果输出
-            contact.say(`@${contact?.name()} `+api_res)
+            room.say(`@${contact?.name()} `+api_res)
             return 0
         }
         return 0
@@ -179,8 +201,28 @@ export async function onMessage(message:Message) {
                 await Sleep(1000)
                 contact.say("这个城市压根不存在！")
                 return 0
-            }
-            
+            }   
+        }
+
+        if(isSolitaire(text))
+        {
+            let index = text.indexOf("：")
+            let soli_Str = text.substring(index+1,text.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/SolitaireMode/main.py "+soli_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            contact.say("我的答案是："+api_res)
+            await Sleep(1000)
+            contact.say("轮到你了")
+
+            return 0
         }
 
         //到了此处却没有被return，说明进入了固定问答模块
@@ -244,6 +286,19 @@ function isWeatherMsg(strEnd:string){
     }
     
 }
+
+function isSolitaire(text:string)
+{   let keywords = text.substring(0,5)
+    if(keywords == "成语接龙")
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+}
+
 
 //休眠程序
 const Sleep = (ms:number)=> {
