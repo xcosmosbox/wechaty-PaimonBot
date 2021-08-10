@@ -13,8 +13,8 @@ url = full_head
 html = requests.get(url)
 # classify
 rubbish_name = msg
-rubbish_type = (html.json()["data"])["Type"]
-rubbish_content = ((html.json()["data"])["Description"])["Concept"] +"\n"+"一般包含在："+((html.json()["data"])["Description"])["Including"]+"\n"+"推荐的处理方法："+((html.json()["data"])["Description"])["Release_requirement"]
+rubbish_type = (html.json()["data"])["type"]
+rubbish_content = ((html.json()["data"])["description"])["Concept"] +"\n"+"一般包含在："+((html.json()["data"])["description"])["Including"]+"\n"+"推荐的处理方法："+((html.json()["data"])["description"])["Release_requirement"]
 res = rubbish_name+": \n"+"垃圾种类："+rubbish_type+"\n"+rubbish_content
 print(res)
 
