@@ -96,6 +96,26 @@ export async function onMessage(message:Message) {
             
         }
 
+        // 垃圾分类模块
+        if(isRubbish(strEnd))
+        {
+            let index = strEnd.indexOf("：")
+            let rubbish_Str = strEnd.substring(index+1,strEnd.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/RubbishClassMode/main.py "+rubbish_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            room.say(`@${contact?.name()} `+api_res)
+
+            return 0
+        }
+
         // 百度百科模块
         if(isWiki(strEnd))
         {
@@ -223,6 +243,26 @@ export async function onMessage(message:Message) {
                 contact.say("这个城市压根不存在！")
                 return 0
             }   
+        }
+
+        // 垃圾分类模块
+        if(isRubbish(text))
+        {
+            let index = text.indexOf("：")
+            let rubbish_Str = text.substring(index+1,text.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/RubbishClassMode/main.py "+rubbish_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            contact.say(api_res)
+
+            return 0
         }
 
         // 百度百科模块
@@ -355,6 +395,18 @@ function isWiki(text:string)
     }
 }
 
+//垃圾分类
+function isRubbish(text:string)
+{   let keywords = text.substring(0,5)
+    if(keywords == "垃圾分类")
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+}
 
 //休眠程序
 const Sleep = (ms:number)=> {
