@@ -61,7 +61,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 <img src="./Image/WechatIMG165.jpeg" alt="WechatIMG165" style="zoom:80%;" />
 
-
+![理智丧失 2021-08-08 12.47.25](./Image/理智丧失 2021-08-08 12.47.25.jpeg)
 
 ## GETTING STARTED
 
