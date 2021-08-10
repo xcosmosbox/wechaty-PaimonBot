@@ -57,6 +57,12 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 
 
+## ChatShow
+
+<img src="./Image/WechatIMG165.jpeg" alt="WechatIMG165" style="zoom:80%;" />
+
+
+
 ## GETTING STARTED
 
 [Linux环境](#Linux)     |    [Windows环境](#win)     |     [macOS环境](#mac)
@@ -474,6 +480,8 @@ python3 main.py
 
 
 ## VERSION
+
+v2.2.0（2021.8.10）新增了5个python模块
 
 v2.1.0（2021.8.7）bug修复
 
