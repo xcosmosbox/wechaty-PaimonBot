@@ -96,6 +96,24 @@ export async function onMessage(message:Message) {
             
         }
 
+        // 历史上的今天模块
+        if(text == "历史上的今天")
+        {
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/TodayInHistoryMode/main.py "
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            room.say(api_res)
+
+            return 0
+        }
+
         // 垃圾分类模块
         if(isRubbish(strEnd))
         {
@@ -243,6 +261,24 @@ export async function onMessage(message:Message) {
                 contact.say("这个城市压根不存在！")
                 return 0
             }   
+        }
+
+        // 历史上的今天模块
+        if(text == "历史上的今天")
+        {
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/TodayInHistoryMode/main.py "
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            contact.say(api_res)
+
+            return 0
         }
 
         // 垃圾分类模块
@@ -407,6 +443,7 @@ function isRubbish(text:string)
         return false
     }
 }
+
 
 //休眠程序
 const Sleep = (ms:number)=> {
