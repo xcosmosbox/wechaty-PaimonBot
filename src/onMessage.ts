@@ -96,8 +96,30 @@ export async function onMessage(message:Message) {
             
         }
 
+        //表情包搜索模块
+        if(isEmojiSearch(strEnd))
+        {
+            let index = strEnd.indexOf("：")
+            let emoji_Str = strEnd.substring(index+1,strEnd.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/EmojiSearchMode/main.py "+emoji_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            const emoji_image_path_in_net = api_res //获取表情包图片的地址
+            const emojiFileBox = FileBox.fromUrl(emoji_image_path_in_net)
+            room.say(emojiFileBox) //发送图片
+
+            return 0
+        }
+
         // 历史上的今天模块
-        if(text == "历史上的今天")
+        if(strEnd == "历史上的今天")
         {
             // 通过ts调用python，并将参数传递过去
             let api_str = "python3 ../PyMode/TodayInHistoryMode/main.py "
@@ -261,6 +283,28 @@ export async function onMessage(message:Message) {
                 contact.say("这个城市压根不存在！")
                 return 0
             }   
+        }
+
+        //表情包搜索模块
+        if(isEmojiSearch(text))
+        {
+            let index = text.indexOf("：")
+            let emoji_Str = text.substring(index+1,text.length)
+            // 通过ts调用python，并将参数传递过去
+            let api_str = "python3 ../PyMode/EmojiSearchMode/main.py "+emoji_Str
+            // 临时构建阻塞式的子线程，且是同步的
+            const execSync = require('child_process').execSync
+            // 子线程会构建一个shell，因此我们在shell输入python命令
+            const output = execSync(api_str)
+            // python脚本打印的东西会被子线程捕捉到，我们需要tostring出来
+            const api_res = output.toString()
+            console.log('sync: ' + api_res)
+            // 将智能对话的结果输出
+            const emoji_image_path_in_net = api_res //获取表情包图片的地址
+            const emojiFileBox = FileBox.fromUrl(emoji_image_path_in_net)
+            contact.say(emojiFileBox) //发送图片
+
+            return 0
         }
 
         // 历史上的今天模块
@@ -435,6 +479,19 @@ function isWiki(text:string)
 function isRubbish(text:string)
 {   let keywords = text.substring(0,5)
     if(keywords == "垃圾分类")
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+}
+
+//表情包查询
+function isEmojiSearch(text:string)
+{   let keywords = text.substring(0,5)
+    if(keywords == "查表情包")
     {
         return true
     }
