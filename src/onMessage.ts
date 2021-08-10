@@ -451,7 +451,7 @@ function isWeatherMsg(strEnd:string){
 
 //对成语接龙的判断
 function isSolitaire(text:string)
-{   let keywords = text.substring(0,5)
+{   let keywords = text.substring(0,4)
     if(keywords == "成语接龙")
     {
         return true
@@ -464,7 +464,7 @@ function isSolitaire(text:string)
 
 //对WIKI的判断
 function isWiki(text:string)
-{   let keywords = text.substring(0,5)
+{   let keywords = text.substring(0,4)
     if(keywords == "百科全书" || keywords == "百科查询")
     {
         return true
@@ -477,7 +477,7 @@ function isWiki(text:string)
 
 //垃圾分类
 function isRubbish(text:string)
-{   let keywords = text.substring(0,5)
+{   let keywords = text.substring(0,4)
     if(keywords == "垃圾分类")
     {
         return true
@@ -490,7 +490,7 @@ function isRubbish(text:string)
 
 //表情包查询
 function isEmojiSearch(text:string)
-{   let keywords = text.substring(0,5)
+{   let keywords = text.substring(0,4)
     if(keywords == "查表情包")
     {
         return true
