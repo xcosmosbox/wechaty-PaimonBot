@@ -1,0 +1,14 @@
+已更新六个模块
+
+WeatherCrawlMode：天气爬虫
+
+SolitaireMode：成语接龙
+
+WikiMode：百科知识
+
+RubbishClassMode：垃圾分类
+
+TodayInHistoryMode：历史上的今天
+
+EmojiSearchMode：表情包搜索
+
