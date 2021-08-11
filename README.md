@@ -63,7 +63,7 @@ bot的功能逻辑代码使用Typescript编写，Python的功能模块代码使�
 
 Chat2：
 
-![show 2021-08-08 12.47.25](./Image/show 2021-08-08 12.47.25.jpeg)
+<img src="./Image/show 2021-08-08 12.47.25.jpg" alt="show 2021-08-08" style="zoom:80%;" />
 
 ## GETTING STARTED
 
