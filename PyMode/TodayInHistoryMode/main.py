@@ -1,6 +1,7 @@
 import sys
 import urllib
 import requests
+import random
 
 # print(sys.argv[0])
 # msg = sys.argv[1]
@@ -11,10 +12,13 @@ start_head = "https://api.muxiaoguo.cn/api/lishijr"
 # print(full_head)
 url = start_head
 html = requests.get(url)
-year = ((html.json()["data"])[0])["year"]
-month = ((html.json()["data"])[0])["month"]
-day = ((html.json()["data"])[0])["day"]
-title = ((html.json()["data"])[0])["title"]
+data = html.json()["data"]
+data_len = len(data)
+num = random.randint(0,data_len)
+year = ((html.json()["data"])[num])["year"]
+month = ((html.json()["data"])[num])["month"]
+day = ((html.json()["data"])[num])["day"]
+title = ((html.json()["data"])[num])["title"]
 if(int(year) < 0):
     num = abs(int(year))
     str_Year = "公元前"+str(num)+"年"
