@@ -1,4 +1,3 @@
-import sys
 import urllib
 import requests
 import random
