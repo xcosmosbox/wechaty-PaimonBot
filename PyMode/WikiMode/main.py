@@ -2,7 +2,6 @@ import sys
 import urllib
 import requests
 
-# print(sys.argv[0])
 msg = sys.argv[1]
 # msg = "Start"
 # url = 'http://api.qingyunke.com/api.php?key=free&appid=0&msg={}'.format(urllib.parse.quote(msg))
