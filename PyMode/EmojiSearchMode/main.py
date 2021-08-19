@@ -15,4 +15,3 @@ imagelink = ((html.json()["data"])[0])["imagelink"]
 print(imagelink)
 
 # print(sys.argv[0])
-# print()
