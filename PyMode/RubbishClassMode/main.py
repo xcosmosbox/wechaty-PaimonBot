@@ -19,4 +19,3 @@ res = rubbish_name+": \n"+"垃圾种类："+rubbish_type+"\n"+rubbish_content
 print(res)
 
 # print(sys.argv[0])
-# print()
