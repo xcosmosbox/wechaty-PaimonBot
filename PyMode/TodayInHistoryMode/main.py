@@ -27,5 +27,4 @@ else:
 content = "历史上的今天：\n"+str_Year+", "+month+"月"+day+"日\n"+title
 
 print(content)
-
 # print(sys.argv[0])
