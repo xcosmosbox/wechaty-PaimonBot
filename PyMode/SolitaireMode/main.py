@@ -14,4 +14,3 @@ html = requests.get(url)
 print((html.json()["data"])["name"])
 
 # print(sys.argv[0])
-# print()
