@@ -12,4 +12,4 @@ url = full_head
 html = requests.get(url)
 print((html.json()["data"])["content"])
 
-# print(sys.argv[0])
+# print(sys.argv[0]) test
