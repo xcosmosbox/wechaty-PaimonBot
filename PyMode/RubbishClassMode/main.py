@@ -18,4 +18,4 @@ rubbish_content = ((html.json()["data"])["description"])["Concept"] +"\n"+"一�
 res = rubbish_name+": \n"+"垃圾种类："+rubbish_type+"\n"+rubbish_content
 print(res)
 
-# print(sys.argv[0])
+# print(sys.argv[0])  test
