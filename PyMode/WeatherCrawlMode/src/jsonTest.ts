@@ -22,7 +22,7 @@ if(fs.existsSync(urlfile))
 // const configJson = require('../Test/out/澳门.json')
 // console.log(configJson)
 
-// "use strict";
+// "use strict";  test
 
 // const express = require("express");
 
