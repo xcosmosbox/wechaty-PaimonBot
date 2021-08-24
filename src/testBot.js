@@ -152,7 +152,6 @@ function onMessage(message) {
 //             {
 //                 if(room != null)
 //                 {
-//                     room.say('你好啊！');
 //                     return 0;
 //                 }
 //                 return 0;
