@@ -16,7 +16,6 @@
  *   limitations under the License.
  *
  */
-
 // tslint:disable:member-ordering
 // tslint:disable:arrow-parens
 // tslint:disable:object-literal-key-quotes
